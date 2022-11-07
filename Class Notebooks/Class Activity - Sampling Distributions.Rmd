@@ -1,0 +1,94 @@
+---
+title: "Untitled"
+output: html_document
+date: '2022-10-03'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r }
+
+N <- 512
+storage <- rep(NA, N)
+storage
+
+for (i in 1:N){
+  storage[i] <- 2*i
+  cat("i =", i, " and 5*i =", 2*i, " was saved in storage[", i, "]\n")
+}
+
+storage
+  
+
+```
+
+```{r}
+
+n <- 40
+Xi <- rep(seq(30, 100, length.out=n/2), each=2) #n must be even.
+Yi <- 2.5 + 3*Xi + rnorm(n, 0, 12)
+plot(Yi ~ Xi, xlim=c(30,100), ylim=c(0,400))
+mylm <- lm(Yi ~ Xi)
+abline(mylm)
+
+
+
+```
+
+```{r}
+N <- 2000
+n <- 40
+
+Xi <- rep(seq(30, 100, length.out=n/2), each=2) #n must be even.
+Yi <- 2.5 + 3*Xi + rnorm(n, 0, 32)
+
+plot(Yi ~ Xi, xlim=c(30,100), ylim=c(0,400))
+mylm <- lm(Yi~ Xi)
+abline (mylm)
+
+for (i in 1:N){
+Yi <- 2.5 + 3*Xi + rnorm(n, 0, 32)
+points (Yi ~ Xi, xlim=c(30,100), y1im=c(0,400), col=rgb(.2,.2,.2,.2))
+mylm <- lm(Yi ~ Xi)
+abline (mylm)
+}
+```
+```{r}
+mylm <- lm(Yi ~ Xi)
+coef(mylm)
+coef(mylm)[1] #intercept only
+coef(mylm)[2] #slope only
+
+hist(storage)
+```
+
+
+```{r}
+
+
+lm.cars <- lm(dist ~ speed, data=cars)
+summary(lm.cars)
+
+```
+
+
+
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

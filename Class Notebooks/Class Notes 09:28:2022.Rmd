@@ -1,0 +1,100 @@
+---
+title: "Untitled"
+output: html_document
+date: '2022-09-28'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Notes
+
+Logs - 
+
+```{r cars}
+round(log(5000), 3)
+
+exp(8.5171932)
+
+```
+
+```{r cars}
+boxplot(islands)
+boxplot(log)
+```
+
+
+```{r cars}
+par(mfrow=c(1,2))
+hist(log(islands), col="forestgreen")
+hist(islands, col="forestgreen")
+round(exp(4), 3)
+round(log(10000), 3)
+```
+
+
+```{r stuff}
+
+library(mosaicData)
+library(ggplot2)
+library(car)
+#  View(Utilities)
+  ?Utilities
+
+plot(gasbill ~ temp, data=Utilities)
+
+lm.temp <- lm(gasbill ~ temp, data=Utilities)
+summary(lm.temp)
+
+#abline(lm.temp)
+
+plot(lm.temp, which=1)
+boxCox(lm.temp)
+
+y = sqrt(sqrt(Utilities$gasbill))
+
+lm_2 <- lm(y ~ Utilities$temp)
+summary(lm_2)
+
+plot(lm_2, which=1)
+
+plot(sqrt(sqrt(gasbill)) ~ temp, data=Utilities)
+abline(lm_2)
+abline(4.20957099+0.2258 , -0.02893911, lty=2)
+abline(4.20957099-0.2258 , -0.02893911, lty=2)
+
+
+
+## Make it meaningful!
+
+plot(gasbill ~ temp, data=Utilities)
+b <- coef(lm_2)
+curve((b[1] + b[2]*x)^4, add = TRUE)
+curve( (b[1]+0.2258 + b[2]*x)^4, lty=2, add = TRUE)
+curve( (b[1]-0.2258 + b[2]*x)^4, lty=2, add = TRUE)
+```
+
+
+```{r more}
+library(tidyverse)
+
+ggplot(Utilities, aes(x=temp, y=gasbill))+
+  geom_point()+
+  stat_function(fun=function(x) (b[1] + b[2]*x)^4)+
+  stat_function(fun=function(x) (b[1]+0.2258 + b[2]*x)^4, linetype="dashed")+
+  stat_function(fun=function(x) (b[1]-0.2258 + b[2]*x)^4, linetype="dashed")
+
+
+```
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -1,0 +1,115 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+# Consider the scatterplot shown here of a single residence’s monthly gas bill according to the month of the year.
+# 
+# See ?Utilities for more details on the data.
+
+
+lm_gasbill <- lm(gasbill ~ month + I(month^2), data=Utilities)
+model_summ <- summary(lm_gasbill)
+b <- coef(lm_gasbill)
+
+
+#boxCox(lm_gasbill)
+
+
+plot(gasbill ~ month , data=Utilities)
+curve(b[1] + b[2]*x + b[3]*x^2, add=TRUE)
+
+plot(lm_gasbill, which=1)
+plot(lm_gasbill, which=2)
+plot(lm_gasbill, which=3)
+
+predict(lm_gasbill, data.frame(month=9), interval='prediction')
+
+```
+
+```{r}
+mean_september <- filter(Utilities,  month == 9)   
+mean(mean_september$gasbill)
+
+predict(lm_gasbill, data.frame(month=9)) - mean(mean_september$gasbill)
+
+sum((model_summ$residuals^2)/114)
+
+sqrt(mean(model_summ$residuals^2))
+
+```
+
+
+
+```{r}
+
+lm_cars <- lm(mpg ~ qsec + am + qsec:am, data=mtcars)
+cars_model <- summary(lm_cars)
+
+b <- coef(lm_cars)
+
+plot(mpg ~ qsec, data=mtcars, col=c("skyblue","orange")[as.factor(am)])
+curve(b[1] + b[2]*x, col='skyblue', lwd=2, add=TRUE)
+curve((b[1] + b[3]) + (b[2] +b[4])*x, col='orange', lwd=2, add=TRUE)
+
+```
+
+
+
+```{r}
+plot(lm_cars, which=1)
+plot(lm_cars, which=2)
+plot(lm_cars, which=3)
+
+sqrt(mean(cars_model$residuals^2))
+```
+
+
+
+
+
+```{r}
+lm_cars_disp <- lm(qsec ~ disp + I(disp^2) + am + disp:am +  I(disp^2):am, data=mtcars)
+cars_model <- summary(lm_cars_disp)
+cars_model
+
+b <- coef(lm_cars_disp)
+
+plot(qsec ~ disp, data=mtcars, col=c("skyblue","orange")[as.factor(am)])
+curve(b[1] + b[2]*x + b[3]*x^2, col='skyblue', lwd=2, add=TRUE)
+curve((b[1] + b[4]) + (b[2] +b[5])*x + (b[3] + b[6])*x^2, col='orange', lwd=2, add=TRUE)
+```
+
+```{r}
+plot(lm_cars_disp, which=1)
+plot(lm_cars_disp, which=2)
+plot(lm_cars_disp, which=3)
+
+sqrt(mean(lm_cars_disp$residuals^2))
+```
+
+```{r}
+
+plot(x=NULL,
+      y=NULL,
+      xlim=c(-2, 3),  ## with c()
+      ylim=v(-10, 10),  ## with c()
+      log="y")
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+

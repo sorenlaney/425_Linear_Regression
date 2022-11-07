@@ -1,0 +1,121 @@
+---
+title: "Analysis Title Here"
+author: "Your Name Here"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: StatsBYUI::math325_analysis
+---
+
+```{r load_library, include=FALSE}
+# Use this R-Chunk to load your libraries!
+library(mosaic)
+
+
+
+library(mosaic)
+library(tidyverse)
+library(dplyr)
+
+
+
+```
+
+```{r load_data, include=FALSE}
+# Use this R-Chunk to load your datasets!
+
+
+orange.lm <- lm(circumference ~ age, data=Orange)
+
+plot <- ggplot(Orange, aes(x=age, y=circumference))+
+  geom_point()+
+  geom_smooth(method = lm, se=F, formula=y~x)
+plot
+
+
+summary(orange.lm)
+
+
+SSE <- sum((Orange$circumference - orange.lm$fit)^2)
+SSE
+SSR <-  sum( (orange.lm$fit - mean(Orange$circumference))^2)
+SSR
+SSTO <- sum((Orange$circumference - mean(Orange$circumference))^2)
+SSTO
+
+SSR/SSTO #r^2
+sqrt(SSR/SSTO)
+```
+
+
+```{r load_data, include=FALSE}
+
+mtcars_wt <- lm(mpg ~ wt, data=mtcars)
+mtcars_cyl <- lm(mpg ~ cyl, data=mtcars)
+mtcars_hp <- lm(mpg ~ hp, data=mtcars)
+
+
+plot(mtcars_wt, which = 2)
+plot(mtcars_wt, which = 1)
+
+plot_wt <- ggplot(mtcars, aes(x=mpg, y=wt))+
+  geom_point()+
+  geom_smooth(method = lm, se=F, formula=y~x)
+plot_wt
+
+plot_cyl <- ggplot(mtcars, aes(x=mpg, y=cyl))+
+  geom_point()+
+  geom_smooth(method = lm, se=F, formula=y~x)
+plot_cyl
+
+plot_hp <- ggplot(mtcars, aes(x=mpg, y=hp))+
+  geom_point()+
+  geom_smooth(method = lm, se=F, formula=y~x)
+plot_hp
+
+
+
+summary(mtcars_wt)
+summary(mtcars_cyl)
+summary(mtcars_hp)
+
+#mtcasrs_wt
+SSE <- sum((mtcars$mpg - mtcars_wt$fit)^2)
+SSE
+SSR <-  sum( (mtcars_wt$fit - mean(mtcars$mpg))^2)
+SSR
+SSTO <- sum((mtcars$mpg - mean(mtcars$mpg))^2)
+SSTO
+
+#mtcasrs_cyl
+SSE <- sum((mtcars$mpg - mtcars_cyl$fit)^2)
+SSE
+SSR <-  sum( (mtcars_cyl$fit - mean(mtcars$mpg))^2)
+SSR
+SSTO <- sum((mtcars$mpg - mean(mtcars$mpg))^2)
+SSTO
+
+
+#mtcasrs_hp
+SSE <- sum((mtcars$mpg - mtcars_hp$fit)^2)
+SSE
+SSR <-  sum( (mtcars_hp$fit - mean(mtcars$mpg))^2)
+SSR
+SSTO <- sum((mtcars$mpg - mean(mtcars$mpg))^2)
+SSTO
+
+
+
+SSR/SSTO #r^2
+sqrt(SSR/SSTO)
+
+
+
+
+```
+
+### Background
+### Analysis
+
+
+### Interpretation
+
+

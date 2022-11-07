@@ -1,0 +1,196 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(mosaic)
+```
+
+
+
+```{r}
+library(tidyverse)
+
+lm_kidsfeet <- lm(length ~ width + I(width^2), data=KidsFeet)
+model_summ <- summary(lm_kidsfeet)
+model_summ
+b <- coef(lm_kidsfeet)
+
+
+#boxCox(lm_gasbill)
+
+
+plot(length ~ width , data=KidsFeet)
+curve(b[1] + b[2]*x + b[3]*x^2, add=TRUE)
+
+plot(lm_kidsfeet, which=1)
+plot(lm_kidsfeet, which=2)
+plot(lm_kidsfeet, which=3)
+
+#predict(lm_gasbill, data.frame(month=9), interval='prediction')
+
+
+
+
+```
+
+
+```{r}
+library(tidyverse)
+
+lm_kidsfeet_sex <- lm(length ~ width + sex, data=KidsFeet)
+model_summ <- summary(lm_kidsfeet_sex)
+model_summ
+b <- coef(lm_kidsfeet_sex)
+
+
+#boxCox(lm_gasbill)
+
+
+plot(length ~ width , data=KidsFeet, col=sex)
+x2=0
+curve(b[1] + b[2]*x + b[3]*x*x2, add=TRUE, col="black")
+x2=1
+curve(b[1] + b[2]*x + b[3]*x*x2, add=TRUE, col="red")
+
+
+# plot(lm_kidsfeet_sex, which=1)
+# plot(lm_kidsfeet_sex, which=2)
+# plot(lm_kidsfeet_sex, which=3)
+
+#predict(lm_gasbill, data.frame(month=9), interval='prediction')
+
+```
+
+
+```{r}
+library(tidyverse)
+
+lm_kidsfeet_quad <- lm(length ~ width + I(width^2) + sex + I(width^2):sex, data=KidsFeet)
+model_summ <- summary(lm_kidsfeet_quad)
+model_summ
+b <- coef(lm_kidsfeet_quad)
+
+
+#boxCox(lm_gasbill)
+
+
+plot(length ~ width , data=KidsFeet, col=sex)
+x2=0
+curve(b[1] + b[2]*x + b[3]*x^2 + b[4]*x2 + b[5]*x*x2, add=TRUE, col="black")
+x2=1
+curve(b[1] + b[2]*x + b[3]*x^2 + b[4]*x2 + b[5]*x*x2, add=TRUE, col="red")
+
+
+# plot(lm_kidsfeet_sex, which=1)
+# plot(lm_kidsfeet_sex, which=2)
+# plot(lm_kidsfeet_sex, which=3)
+
+#predict(lm_gasbill, data.frame(month=9), interval='prediction')
+```
+
+
+
+```{r}
+lm_kidsfeet_linear <- lm(length ~ width, data=KidsFeet)
+model_summ <- summary(lm_kidsfeet_linear)
+model_summ
+b <- coef(lm_kidsfeet_linear)
+
+
+#boxCox(lm_gasbill)
+
+
+plot(length ~ width , data=KidsFeet)
+curve(b[1] + b[2]*x, add=TRUE)
+```
+
+
+
+```{r}
+
+lm_Loblolly <- lm(height ~ age, data=Loblolly)
+ 
+# plot(height ~ age, data=Loblolly)
+# abline(lm_Loblolly)
+
+ggplot(Loblolly, aes(x=height, y=age))+
+  geom_point()+
+  geom_smooth()+
+  geom_smooth(method = "lm", formula = y~x, se = FALSE, color="red")
+```
+
+
+
+```{r}
+lm_Loblolly <- lm(age ~ height + I(height^2), data=Loblolly)
+ 
+# plot(height ~ age, data=Loblolly)
+# abline(lm_Loblolly)
+
+ggplot(Loblolly, aes(x=age, y=height))+
+  geom_point()+
+  geom_smooth()+
+  geom_smooth(method = "lm", formula = y~x+I(x^2), se = FALSE, color="red")
+```
+
+
+
+```{r}
+
+pairs(Utilities, panel=panel.smooth)
+
+
+
+```
+
+
+
+```{r}
+
+lm_ebill <- lm(elecbill ~ kwh, data=Utilities)
+summ <- summary(lm_ebill)
+pander(summ)
+
+
+plot(lm_ebill, which=1)
+plot(lm_ebill, which=2)
+plot(lm_ebill, which=3)
+
+```
+
+
+
+```{r}
+pairs(cbind(R = lm_ebill$res, Fit = lm_ebill$fit, Utilities), panel=panel.smooth)
+
+
+```
+
+
+```{r}
+library(car)
+
+lm_ebill_plus <- lm(elecbill ~ kwh + year + temp + I(temp^2), data=Utilities[-95,])
+summ <- summary(lm_ebill_plus)
+pander(summ)
+
+
+plot(lm_ebill_plus, which=1)
+plot(lm_ebill_plus, which=2)
+plot(lm_ebill_plus, which=3)
+
+boxCox(lm_ebill_plus)
+
+```
+
+```{r}
+lm_final <- lm(elecbill ~ year + I(month^2), data = Utilities)
+sum <- summary(lm_final)
+pander(sum)
+```
+
+
+

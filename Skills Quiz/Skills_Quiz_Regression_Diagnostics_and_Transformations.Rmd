@@ -1,0 +1,155 @@
+---
+title: "Untitled"
+output: html_document
+date: '2022-09-30'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(car)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+
+df <- Davis
+
+df_new <- df[-c(12), ]
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+lm.davis <- lm(height ~ weight, data = df)
+summary(lm.davis)
+lm.davis_new <- lm(height ~ weight, data = df_new)
+summary(lm.davis_new)
+
+plot(height ~ weight, data = df)
+abline(lm.davis)
+abline(lm.davis_new)
+plot(lm.davis, which=1)
+plot(lm.davis_new, which=1)
+
+
+#ggplot(lm.davis, aes(y=weight, x=height))
+
+```
+
+
+
+```{r Prestige, echo=FALSE}
+
+df_prestige <- Prestige
+
+lm.prestige <- lm(income ~ prestige, data=df_prestige)
+summary(lm.prestige)
+
+plot(income ~ prestige, data=df_prestige)
+abline(lm.prestige)
+
+
+plot(lm.prestige, which=1)
+plot(lm.prestige, which=2)
+
+```
+
+
+```{r Burt, echo=FALSE}
+
+df_burt <- Burt
+
+lm.burt <- lm(IQbio ~ IQfoster, data=df_burt)
+summary(lm.burt)
+
+plot(IQbio ~ IQfoster, data=df_burt)
+abline(lm.burt)
+
+plot(lm.burt)
+
+
+```
+
+```{r mtcars, echo=FALSE}
+
+df_mtcars <- mtcars
+
+lm.mtcars <- lm(mpg ~ disp, data=df_mtcars)
+summary(lm.mtcars)
+
+plot(mpg ~ disp, data=df_mtcars)
+abline(lm.mtcars)
+
+plot(lm.mtcars)
+
+
+```
+
+```{r Orange, echo=FALSE}
+
+library(mosaicData)
+library(ggplot2)
+library(car)
+
+df_orange <- Orange
+
+lm.orange <- lm(circumference ~ age, data=df_orange)
+sum_model <- summary(lm.orange)
+sum_model
+
+plot(circumference ~ age, data=df_orange)
+abline(lm.orange)
+
+
+model_sum <- summary(lm.orange)
+MSE <- mean(model_sum$residuals^2)
+round(MSE, 2)
+
+mean((df_orange$circumference - predict(lm.orange))^2)
+
+
+round(sqrt(mean(sum_model$residuals^2)), 2)
+
+boxCox(lm.orange)
+
+
+# y = sqrt(sqrt(Utilities$gasbill))
+y = sqrt(sqrt(df_orange$circumference))
+# 
+# lm_2 <- lm(y ~ Utilities$temp)
+# summary(lm_2)
+lm_2 <- lm(y ~ df_orange$age)
+summary(lm_2)
+# 
+# plot(lm_2, which=1)
+plot(lm_2)
+# 
+# plot(sqrt(sqrt(gasbill)) ~ temp, data=Utilities)
+plot(sqrt(sqrt(circumference)) ~ age, data=df_orange)
+# abline(lm_2)
+abline(lm_2)
+# abline(4.20957099+0.2258 , -0.02893911, lty=2)
+abline(2.366+0.1707, 8.924, lty=2)
+# abline(4.20957099-0.2258 , -0.02893911, lty=2)
+abline(2.366-0.1707, 8.924, lty=2)
+## Make it meaningful!
+
+plot(circumference ~ age, data=df_orange)
+b <- coef(lm_2)
+curve((b[1] + b[2]*x)^4, add = TRUE)
+curve( (b[1]+0.09358 + b[2]*x)^4, lty=2, add = TRUE)
+curve( (b[1]-0.09358 + b[2]*x)^4, lty=2, add = TRUE)
+abline(lm.orange)
+
+```
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

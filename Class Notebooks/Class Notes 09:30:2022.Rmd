@@ -1,0 +1,61 @@
+---
+title: "Class Notes"
+output: html_document
+date: '2022-09-30'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r library}
+library(tidyverse)
+library(car)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r plot, echo=FALSE}
+
+plot(circumference ~ age, data=Orange, pch=16, col="orangered", main="Growth of Orange Trees", xlab="Age of Tree in Days", ylab="Circumference of Tree (mm)")
+
+# ggplot(Orange, aes(x=age, y=circumference)) + 
+#   geom_point(color="orangered") +
+#   labs(title="Growth of Orange Trees", x="Age of Tree in Days", y="Circumference of Tree (mm)") + 
+#   theme_bw( )
+
+#log(Y)
+ç
+
+ggplot(Orange, aes(x=age, y=circumference)) + 
+  geom_point(color="orangered") +
+  stat_function(fun = function(x) exp(b.log[1] + b.log[2]*x), 
+                aes(color="log(Y)")) +
+  stat_function(fun = function(x) (b.sqrt[1] + b.sqrt[2]*x)^2, 
+                aes(color="sqrt(Y)")) +
+  stat_function(fun = function(x) 1/(b.1oY[1] + b.1oY[2]*x), 
+                aes(color="1/Y")) +
+  stat_function(fun = function(x) b.y[1] + b.y[2]*x, aes(color="Y")) +
+  stat_function(fun = function(x) sqrt(b.y2[1] + b.y2[2]*x), 
+                aes(color="Y^2")) +
+  labs(title="Growth of Orange Trees", x="Age of Tree in Days", 
+       y="Circumference of Tree (mm)") + 
+  theme_bw( )
+
+
+  boxCox(lm.y)
+  
+  
+YounOrange <- filter(Orange, age )
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -1,0 +1,29 @@
+---
+title: "Untitled"
+author: ""
+date: ""
+output: 
+  html_document:
+    fig_height: 3
+    fig_width: 5
+  pdf_document:
+    fig_height: 3
+    fig_width: 5
+  word_document:
+    fig_height: 3
+    fig_width: 5
+---
+
+```{r, setup, include=FALSE}
+require(mosaic)    # Load additional packages here 
+require(ggformula) # formula interface to ggplot2
+
+# Some customization.  You can alter or delete as desired (if you know what you are doing).
+```
+
+
+```{r}
+df <- read_csv("/Users/soren.laney/Desktop/Fall Semester 2022/Math 425 Applied Linear Regression/Analysis/midterm decision/Math425PastGrades.csv")
+df %>% head()
+```
+

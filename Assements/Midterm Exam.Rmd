@@ -1,0 +1,245 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(car)
+library(mosaic)
+library(tidyverse)
+library(Metrics)
+```
+
+
+```{r}
+
+df <- airquality
+
+df_new <- df %>% 
+  select(Wind, Solar.R)
+
+```
+
+
+```{r}
+lm.airquality <- lm(Wind ~ Solar.R, data=df)
+ml.summary <- summary(lm.airquality)
+
+
+round(mean(ml.summary$residuals^2), 2)
+mse(df$Wind, predict(lm.airquality, df_new))
+
+
+lm.wt <- lm(Temp ~ Wind, data=df)
+summary(lm.wt)
+
+plot(Temp ~ Wind, data=df)
+
+```
+
+
+
+```{r}
+  
+df_railtrail <- RailTrail
+
+
+lm.railtrail <- lm(volume ~ lowtemp, data=df_railtrail)
+summary(lm.railtrail)
+
+plot(volume ~ lowtemp, data=df_railtrail)
+abline(lm.railtrail)
+points(38, 375, col = "red")
+points(62, 413, col = "red")
+points(45, 379, col = "red")
+points(22, 340, col = "red")
+
+pred1 <- 375 -(predict(lm.railtrail, data.frame(lowtemp=38))) 
+pred1
+pred2 <- 413 - (predict(lm.railtrail, data.frame(lowtemp=62)))
+pred2
+pred3 <- 379 - (predict(lm.railtrail, data.frame(lowtemp=45)))
+pred3
+pred4 <- 340 - (predict(lm.railtrail, data.frame(lowtemp=23)))
+pred4
+```
+
+```{r}
+
+
+y1 <- lm(Ozone^-1 ~ Temp, data=airquality)
+summary(y1)
+
+y2 <- lm(log(Ozone) ~ Temp, data=airquality)
+summary(y2)
+
+y3 <- lm(sqrt(Ozone) ~ Temp, data=airquality)
+summary(y3)
+
+# plot(Ozone ~ Temp, data=airquality)
+# 
+# ggplot(airquality, aes(x=Temp, y=Ozone)) +
+#     geom_point()
+
+lm.ozone <- lm(Ozone ~ Temp, data=airquality)
+summary(lm.ozone)
+
+
+# boxCox(lm.ozone)
+
+```
+
+
+
+
+```{r}
+(-7.1)^2 + 13^2 + (-7.4)^2 + 4.1^2 + (-2.7)^2
+```
+
+
+```{r}
+
+
+df_cars <- cars
+
+lm.cars <- lm(dist ~ speed, data=df_cars)
+summary(lm.cars)
+
+boxCox(lm.cars)
+
+
+lm.transformed <- lm(sqrt(dist) ~ speed, data=df_cars)
+b <- coef(lm.transformed)
+
+
+plot(dist ~ speed, data=df_cars)
+abline(lm.cars)
+abline(lm.transformed, col = "red")
+
+
+
+plot <- ggplot(df_cars, aes(x=speed, y=dist))+
+  geom_point()+
+  stat_function(fun = function(x) ((b[1] + b[2]*x)^2), color='black')+
+  geom_point(x=14, y=80, col='red')
+plot
+
+pred.car <- (predict(lm.transformed, data.frame(speed=20), interval="prediction"))^2
+pred.car
+
+80 - (-17.5791 + 3.9324*14)
+
+```
+```{r}
+df_mtcars <- mtcars
+
+plot(mpg ~ wt, data=df_mtcars)
+
+
+lm.mtcars <- lm(mpg ~ wt, data=df_mtcars)
+
+boxCox(lm.mtcars)
+
+lm.new.mtcars <- lm(log(mpg) ~ wt, data=df_mtcars)
+
+pred.mtcars <- exp((predict(lm.new.mtcars, data.frame(wt=4))))
+pred.mtcars
+```
+
+
+
+```{r}
+df_kf <- KidsFeet
+
+df_girls <- df_kf %>% filter(sex == "G")
+
+lm.girls <- lm(width ~ length, data=df_girls)
+summary(lm.girls)
+
+confint(lm.girls, level=0.95)
+
+pred.width <- (predict(lm.girls, data.frame(length=25), interval="prediction"))
+pred.width
+```
+
+
+```{r}
+df_cw <- ChickWeight
+
+lm.cw <- lm(weight ~ Time, data=df_cw)
+summary(lm.cw)
+
+par(mfrow=c(1,3))
+
+plot(lm.cw, which=1:2)
+
+
+# residuals vs. order
+plot(lm.cw$residuals, main="Residuals Vs. Order")
+
+```
+
+
+
+```{r}
+df_l <- Loblolly
+
+lm.l <- lm(height ~ age, data=df_l)
+
+plot(height ~ age, data=df_l)
+abline(lm.l)
+
+par(mfrow=c(1))
+
+plot(lm.l, which=1)
+
+
+# residuals vs. order
+plot(lm.l$residuals, main="Residuals Vs. Order")
+
+
+```
+
+
+
+```{r}
+df_orange <- Orange
+
+lm.o <- lm(circumference ~ age, data=df_orange)
+
+par(mfrow=c(1,3))
+
+plot(lm.o, which=1:2)
+
+
+# residuals vs. order
+plot(lm.o$residuals, main="Residuals Vs. Order")
+
+```
+
+```{r}
+?mpg
+
+View(mpg)
+
+
+
+
+mpg.lm <- lm(hwy ~ cty, data=mpg)
+summary(mpg.lm)
+
+plot(hwy ~ cty, data = mpg)
+abline(mpg.lm)
+```
+
+
+
+
+```{r}
+lob.lm <- lm(height ~ age, data=Loblolly)
+
+plot(lob.lm, which=1)
+abline(lob.lm)
+
+```
+

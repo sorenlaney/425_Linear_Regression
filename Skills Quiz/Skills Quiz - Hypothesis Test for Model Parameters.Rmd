@@ -1,0 +1,130 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+library(tidyverse)
+library(Ecdat)
+library(ggpubr)
+library(rstatix)
+library(MASS)
+library(car)
+```
+
+
+```{r}
+?Caschool
+View(Caschool)
+```
+
+```{r}
+df <- Caschool
+```
+
+
+```{r}
+lm.school <- lm(testscr ~ mealpct, data=df)
+plot(data=df, testscr ~ mealpct)
+abline(lm.school)
+summary(lm.school)
+max(df$mealpct)
+min(df$mealpct)
+
+max(df$testscr)
+min(df$testscr)
+
+# Gets the confidence intervals og the model
+confint(lm.school, 'mealpct', level=0.95)
+confint(lm.school, level=0.95)
+
+
+par(mfrow=c(1,3))
+
+#residuals vs. fitted-values plo
+plot(lm.school, which=1:2)
+
+
+# residuals vs. order
+plot(lm.school$residuals,
+     main="Residuals Vs. Order")
+```
+
+```{r}
+?Clothing
+
+View(Clothing)
+
+```
+
+
+```{r}
+
+df <- Clothing
+
+df_filtered <- filter(df,  tsales <= 4500000)  
+df_filtered %>% head(5)
+
+lm.sales <- lm(tsales ~ hourspw, data=df_filtered)
+plot(data=df_filtered, tsales ~ hourspw)
+abline(lm.sales)
+
+summary(lm.sales)
+
+
+confint(lm.sales, 'tsales', level=0.95)
+confint(lm.sales, level=0.95)
+
+
+par(mfrow=c(1,3))
+
+#residuals vs. fitted-values plo
+plot(lm.sales, which=1:2)
+
+
+# residuals vs. order
+plot(lm.sales$residuals,
+     main="Residuals Vs. Order")
+```
+
+
+
+```{r}
+boxCox(lm.sales)
+
+y = sqrt(sqrt(df_filtered$tsales))
+x = log(df_filtered$hourspw)
+
+lm_new <- lm(y ~ x)
+summary(lm_new)
+
+plot(lm.sales, which=1)
+plot(lm_new, which=1)
+plot(lm_new)
+
+
+plot(sqrt(sqrt(tsales)) ~ log(hourspw), data=df_filtered)
+abline(lm.sales)
+abline(lm_new)
+abline(20.52279+0.50035 , -3.594, lty=2)
+
+abline(20.52279-0.50035 , -3.594, lty=2)
+
+## Make it meaningful!
+
+
+#abline(lm.cars)
+
+max(log(df_filtered$tsales))
+min(log(df_filtered$tsales))
+
+max(log(df_filtered$hourspw))
+min(log(df_filtered$hourspw))
+
+```
+
+

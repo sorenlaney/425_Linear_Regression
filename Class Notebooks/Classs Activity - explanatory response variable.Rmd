@@ -1,0 +1,88 @@
+---
+title: "CASE STUDY TITLE"
+author: "YOUR NAME"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:  
+    keep_md: true
+    toc: true
+    toc_float: true
+    code_folding: hide
+    fig_height: 6
+    fig_width: 12
+    fig_align: 'center'
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+```{r load_libraries, include=FALSE}
+# Use this R-Chunk to load all your libraries!
+#install.packages("tidyverse") # run this line once in console to get package
+library(tidyverse)
+library(car)
+library(pander)
+
+```
+
+```{r load_data}
+# Use this R-Chunk to import all your datasets!
+
+```
+
+## Background
+
+_Place Task Background Here_
+
+## Data Wrangling
+
+```{r tidy_data}
+# Use this R-Chunk to clean & wrangle your data!
+#View(airquality)
+#?airquality
+
+air2 <- airquality %>% 
+  filter(Month == 5)
+
+
+plot(Temp ~ Day, data=air2,
+     pch=16, col="skyblue")
+plot
+
+
+air_quality.lm <- lm(Temp ~ Day, data=air2)
+summary(air_quality.lm)
+
+graph <- ggplot(air_quality.lm, aes(x=Day, y=Temp))+
+  geom_point()+
+  geom_smooth(method="lm", se=F, formula=y~x)
+graph
+
+plot(Temp ~ lag(Temp, 1), data=air2, pch=16, col="skyblue", main="Temperature Patterns in May, 1973 \n La Guardia Airport, NY", xlab="Yesterday's Maximum Daily Temperature in Degrees F", ylab="Today's Max Temperature in Degrees F")
+
+air2.lm <- lm(Temp ~ lag(Temp, 1), data=air2)
+plot_2 <- plot(Temp ~ lag(Temp, 1), data=air2, pch=16, col="skyblue", main="Temperature Patterns in May, 1973 \n La Guardia Airport, NY", xlab="Yesterday's Maximum Daily Temperature in Degrees F", ylab="Today's Max Temperature in Degrees F")
+abline(a=air2.lm)
+summary(air2.lm)
+
+# two days lag
+plot(Temp ~ lag(Temp, 2), data=air2, pch=16, col="skyblue", main="Temperature Patterns in May, 1973 \n La Guardia Airport, NY", xlab="Yesterday's Maximum Daily Temperature in Degrees F", ylab="Today's Max Temperature in Degrees F")
+
+air2.lm <- lm(Temp ~ lag(Temp, 2), data=air2)
+plot_2 <- plot(Temp ~ lag(Temp, 2), data=air2, pch=16, col="skyblue", main="Temperature Patterns in May, 1973 \n La Guardia Airport, NY", xlab="Yesterday's Maximum Daily Temperature in Degrees F", ylab="Today's Max Temperature in Degrees F")
+abline(a=air2.lm)
+summary(air2.lm)
+```
+
+## Data Visualization
+
+```{r plot_data}
+# Use this R-Chunk to plot & visualize your data!
+
+
+
+
+```
+
+## Conclusions

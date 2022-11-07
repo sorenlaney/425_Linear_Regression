@@ -1,0 +1,36 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+
+library(tidyverse)
+
+
+ggplot(faithful, aes(x=eruptions, y=waiting))+
+  geom_point(pch=21, color="darkgrey", fill="skyblue")+
+  geom_smooth(method="lm", se=T, formula=y~x, color="darkgrey")
+
+faithful.lm <- lm(waiting ~ eruptions, data = faithful)
+summary(faithful.lm)
+
+```
+
+
+
+
+
+```{r}
+
+predict(faithful.lm, data.frame(eruptions=2.0), interval = "prediction")
+```
+
+
+
+
+
+```{r}
+
+```
+

@@ -1,0 +1,127 @@
+---
+title: "Recovering a True Model"
+output: 
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+```{r, message=FALSE, warning=FALSE}
+p1Data <- read.csv("/Users/soren.laney/Desktop/BYUI/Fall Semester 2022/Math 425 Applied Linear Regression/Class Notebooks/p1Data-1.csv", header=TRUE)
+p2Data <- read.csv("/Users/soren.laney/Desktop/BYUI/Fall Semester 2022/Math 425 Applied Linear Regression/Class Notebooks/p2Data-1.csv", header=TRUE)
+p3Data <- read.csv("/Users/soren.laney/Desktop/BYUI/Fall Semester 2022/Math 425 Applied Linear Regression/Class Notebooks/p3Data-1.csv", header=TRUE)
+```
+
+## Part 1 - Recovering a True Model (Beginner Level)
+
+We believe the true model to be...
+
+$$
+  Y_i = \underbrace{/beta_0 + /beta_1X_4i +beta_2}_\text{The True Model} + \epsilon_i
+$$
+
+And estimate that model by...
+
+$$
+  \hat{Y}_i = ...
+$$
+
+with our estimate of $\sigma$ as ...
+
+```{r}
+pairs(p1Data, panel=panel.smooth)
+
+
+lm1 <- lm(Y ~ X4, data=p1Data)
+summary(lm1)
+plot(lm1, which=1)
+
+
+pairs(cbind(Res = lm1$residuals, p1Data), panel=panel.smooth, col=as.factor(p1Data$X2))
+
+
+
+lm2 <- lm(Y ~ X4 + X2, data=p1Data)
+summary(lm2)
+
+
+plot(lm2, which=1)
+b <- coef(lm2)
+plot(Y~ X4, data=p1Data, col=as.factor(X2))
+X2=0
+curve(b[1] + b[2]*X4 + b[3]*X2, xname="X4", col="black", add=TRUE)
+X2=1
+curve(b[1] + b[2]*X4 + b[3]*X2, xname="X4", col="red", add=TRUE)
+
+lm3 <- lm(Y ~ X4 +X2 + X4:X2, data=p1Data)
+summary(lm3)
+b <- coef(lm3)
+plot(Y~ X4, data=p1Data, col=as.factor(X2))
+X2=0
+curve(b[1] + b[2]*X4 + b[3]*X2, xname="X4", col="black", add=TRUE)
+X2=1
+curve(b[1] + b[2]*X4 + b[3]*X2, xname="X4", col="red", add=TRUE)
+
+plot(lm3, which=1)
+
+```
+
+
+## Part 2 - Recovering a True Model (Intermediate Level)
+
+We believe the true model to be...
+
+$$
+  Y_i = \underbrace{...}_\text{The True Model} + \epsilon_i
+$$
+
+And estimate that model by...
+
+$$
+  \hat{Y}_i = ...
+$$
+
+with our estimate of $\sigma$ as ...
+
+```{r}
+#View(p2Data)
+pairs(p2Data)
+
+lm1 <- lm(Y ~ X5 +I(X5^2), data=p2Data)
+summary(lm1)
+
+plot(lm1, which=1)
+
+
+pairs(cbind(Res = lm1$res, p2Data), panel=panel.smooth)
+
+lm2 <- lm(Y ~ X5 + I(X5^2) + X3, data=p2Data)
+summary(lm2)
+
+
+plot(lm2, which=1)
+
+
+```
+
+
+
+## Part 3 - Recovering a True Model (Advanced Level)
+
+We believe the true model to be...
+
+$$
+  Y_i = \underbrace{...}_\text{The True Model} + \epsilon_i
+$$
+
+And estimate that model by...
+
+$$
+  \hat{Y}_i = ...
+$$
+
+with our estimate of $\sigma$ as ...
+
+```{r}
+
+```

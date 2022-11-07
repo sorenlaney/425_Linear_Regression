@@ -1,0 +1,339 @@
+---
+title: "Different Models"
+output:
+  html_document:
+    theme: cerulean
+    code_folding: hide
+---
+
+
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(pander)
+```
+
+## {.tabset .tabset-pills}
+
+### Line
+
+```{r}
+## Simulating Data from a Regression Model
+  ## This R-chunk is meant to be played in your R Console.
+  ## It allows you to explore how the various elements
+  ## of the regression model combine together to "create"
+  ## data and then use the data to "re-create" the line.
+
+  set.seed(101) #Allows us to always get the same "random" sample
+                #Change to a new number to get a new sample
+
+  n <- 30 #set the sample size
+
+  X_i <- runif(n, 15, 45) 
+    #Gives n random values from a uniform distribution between 15 to 45.
+
+  beta0 <- 3 #Our choice for the y-intercept. 
+
+  beta1 <- -12.88 #Our choice for the slope. 
+
+  sigma <- 12.5 #Our choice for the std. deviation of the error terms.
+
+
+  epsilon_i <- rnorm(n, 0, sigma) 
+    #Gives n random values from a normal distribution with mean = 0, st. dev. = sigma.
+
+  Y_i <- beta0 + beta1*X_i + epsilon_i 
+    #Create Y using the normal error regression model
+
+  fabData <- data.frame(y=Y_i, x=X_i) 
+    #Store the data as data
+
+
+
+  #In the real world, we begin with data (like fabData) and try to recover the model that 
+  # (we assume) was used to created it.
+
+  fab.lm <- lm(y ~ x, data=fabData) #Fit an estimated regression model to the fabData.
+
+  #summary(fab.lm) %>% pander() #Summarize your model. 
+
+  plot(y ~ x, data=fabData) #Plot the data.
+
+  #abline(fab.lm) #Add the estimated regression line to your plot.
+  b <- coef(fab.lm)
+  curve(b[1] + b[2]*x, add=TRUE)
+
+
+
+  # Now for something you can't do in real life... but since we created the data...
+
+ # abline(beta0, beta1, lty=2) 
+    #Add the true regression line to your plot using a dashed line (lty=2). 
+  curve(beta0 + beta1*x, add=TRUE, lty=2)
+
+  legend("topleft", legend=c("True Line", "Estimated Line"), lty=c(2,1), bty="n") 
+    #Add a legend to your plot specifying which line is which.
+  
+    pander(fab.lm)
+    
+      pander(fabData)
+
+```
+
+
+### Quadratic
+
+```{r}
+## Simulating Data from a Regression Model
+  ## This R-chunk is meant to be played in your R Console.
+  ## It allows you to explore how the various elements
+  ## of the regression model combine together to "create"
+  ## data and then use the data to "re-create" the line.
+
+  set.seed(101) #Allows us to always get the same "random" sample
+                #Change to a new number to get a new sample
+
+  n <- 30 #set the sample size
+
+  X_i <- runif(n, 15, 45) 
+    #Gives n random values from a uniform distribution between 15 to 45.
+
+  beta0 <- 3 #Our choice for the y-intercept. 
+
+  beta1 <- -12.88 #Our choice for the slope. 
+  
+  beta2 <- .2 #Our choice for the quadratice term
+
+  sigma <- 2.5 #Our choice for the std. deviation of the error terms.
+
+
+  epsilon_i <- rnorm(n, 0, sigma) 
+    #Gives n random values from a normal distribution with mean = 0, st. dev. = sigma.
+
+  Y_i <- beta0 + beta1*X_i + beta2*X_i^2 + epsilon_i 
+    #Create Y using the normal error regression model
+
+  fabData <- data.frame(y=Y_i, x=X_i) 
+    #Store the data as data
+
+
+
+  #In the real world, we begin with data (like fabData) and try to recover the model that 
+  # (we assume) was used to created it.
+
+  fab.lm <- lm(y ~ x + I(x^2), data=fabData) #Fit an estimated regression model to the fabData.
+
+  #summary(fab.lm) %>% pander() #Summarize your model. 
+
+  plot(y ~ x, data=fabData) #Plot the data.
+
+  #abline(fab.lm) #Add the estimated regression line to your plot.
+  b <- coef(fab.lm)
+  curve(b[1] + b[2]*x + b[3]*x^2, add=TRUE)
+
+
+
+  # Now for something you can't do in real life... but since we created the data...
+
+ # abline(beta0, beta1, lty=2) 
+    #Add the true regression line to your plot using a dashed line (lty=2). 
+  curve(beta0 + beta1*x + beta2*x^2, add=TRUE, lty=2)
+
+  legend("topleft", legend=c("True Line", "Estimated Line"), lty=c(2,1), bty="n") 
+    #Add a legend to your plot specifying which line is which.
+  
+  pander(fab.lm)
+  
+    pander(fabData)
+```
+
+
+### Cubic
+
+
+```{r}
+## Simulating Data from a Regression Model
+  ## This R-chunk is meant to be played in your R Console.
+  ## It allows you to explore how the various elements
+  ## of the regression model combine together to "create"
+  ## data and then use the data to "re-create" the line.
+
+  set.seed(101) #Allows us to always get the same "random" sample
+                #Change to a new number to get a new sample
+
+  n <- 30 #set the sample size
+
+  X_i <- runif(n, -5, 55) 
+    #Gives n random values from a uniform distribution between 15 to 45.
+
+  beta0 <- -4000 #Our choice for the y-intercept. 
+
+  beta1 <- -9120 #Our choice for the slope. 
+  
+  beta2 <- 900 #Our choice for the quadratice term
+
+  beta3 <- -14 #cubic term choice
+  
+  sigma <- 10000 #Our choice for the std. deviation of the error terms.
+
+
+  epsilon_i <- rnorm(n, 0, sigma) 
+    #Gives n random values from a normal distribution with mean = 0, st. dev. = sigma.
+
+  Y_i <- beta0 + beta1*X_i + beta2*X_i^2 + beta3*X_i^3 + epsilon_i 
+    #Create Y using the normal error regression model
+
+  fabData <- data.frame(y=Y_i, x=X_i) 
+    #Store the data as data
+
+
+
+  #In the real world, we begin with data (like fabData) and try to recover the model that 
+  # (we assume) was used to created it.
+
+  fab.lm <- lm(y ~ x + I(x^2) + I(x^3), data=fabData) #Fit an estimated regression model to the fabData.
+
+  #summary(fab.lm) %>% pander() #Summarize your model. 
+
+  plot(y ~ x, data=fabData) #Plot the data.
+
+  #abline(fab.lm) #Add the estimated regression line to your plot.
+  b <- coef(fab.lm)
+  curve(b[1] + b[2]*x + b[3]*x^2 + b[4]*x^3, add=TRUE)
+
+
+
+  # Now for something you can't do in real life... but since we created the data...
+
+ # abline(beta0, beta1, lty=2) 
+    #Add the true regression line to your plot using a dashed line (lty=2). 
+  curve(beta0 + beta1*x + beta2*x^2 +beta3*x^3, add=TRUE, lty=2)
+
+  legend("topleft", legend=c("True Line", "Estimated Line"), lty=c(2,1), bty="n") 
+    #Add a legend to your plot specifying which line is which.
+  
+  pander(fab.lm)
+  
+    pander(fabData)
+```
+
+
+### Two-Lines
+
+
+```{r}
+## Simulating Data from a Regression Model
+  ## This R-chunk is meant to be played in your R Console.
+  ## It allows you to explore how the various elements
+  ## of the regression model combine together to "create"
+  ## data and then use the data to "re-create" the line.
+
+  set.seed(101) #Allows us to always get the same "random" sample
+                #Change to a new number to get a new sample
+
+  n <- 30 #set the sample size
+
+  X_i <- runif(n, -5, 55) 
+    #Gives n random values from a uniform distribution between 15 to 45.
+  X_2i <- sample(c(0,1), n, replace=TRUE) 
+     #Gives n 0's and 1's randomly
+  
+  beta0 <- 3 #Our choice for the y-intercept. 
+
+  beta1 <- 2.5 #Our choice for the slope. 
+  
+  beta2 <- -20 #Our choice for the quadratice term
+
+  beta3 <- 3.5 #cubic term choice
+  
+  sigma <- 3 #Our choice for the std. deviation of the error terms.
+
+
+  epsilon_i <- rnorm(n, 0, sigma) 
+    #Gives n random values from a normal distribution with mean = 0, st. dev. = sigma.
+
+  Y_i <- beta0 + beta1*X_i + beta2*X_2i + beta3*X_i*X_2i + epsilon_i 
+    #Create Y using the normal error regression model
+
+  fabData <- data.frame(y=Y_i, x=X_i, x2=X_2i) 
+    #Store the data as data
+
+
+
+  #In the real world, we begin with data (like fabData) and try to recover the model that 
+  # (we assume) was used to created it.
+
+  
+  #         lm(y ~ x*x2, data=fabData) --- Equivlant code ---- don't use until good at code below
+  fab.lm <- lm(y ~ x + x2 + x:x2, data=fabData) #Fit an estimated regression model to the fabData.
+
+  #summary(fab.lm) %>% pander() #Summarize your model 
+
+  plot(y ~ x, data=fabData, col=as.factor(x2)) #Plot the data.
+
+  #abline(fab.lm) #Add the estimated regression line to your plot.
+  b <- coef(fab.lm)
+  x2 = 0
+  curve(b[1] + b[2]*x + b[3]*x2 + b[4]*x*x2, add=TRUE)
+  x2 = 0
+  curve(b[1] + b[2]*x + b[3]*x2 + b[4]*x*x2, add=TRUE, col="red")
+
+
+
+  # Now for something you can't do in real life... but since we created the data...
+
+ # abline(beta0, beta1, lty=2) 
+    #Add the true regression line to your plot using a dashed line (lty=2). 
+  x2=0
+  curve(beta0 + beta1*x + beta2*x2 +beta3*x*x2, add=TRUE, lty=2)
+  x2=1
+  curve(beta0 + beta1*x + beta2*x2 +beta3*x*x2, add=TRUE, lty=2, col="red")
+
+  legend("topleft", legend=c("True Line", "Estimated Line"), lty=c(2,1), bty="n") 
+    #Add a legend to your plot specifying which line is which.
+  
+  pander(fab.lm)
+  
+  pander(fabData)
+```
+
+
+
+
+
+```{r}
+challData <- data.frame(y=c( 62.0230141814838,65.3287607440202,63.0850996714816,64.7215795301002,63.5747270663006,53.702998209753,67.3864948748882,63.6127706891815,67.7168411573423,65.1905587130745,62.7203672543605,65.9786946907104,65.9747299777148,66.0078406427285,56.6621327894133,64.427226260792,59.6411522580869,54.7853006620191,62.5791157289376,64.2432705505488,64.6637314187692,66.0977643647167,66.1309505076381,63.2605451217536,65.8227827462007,65.2274912077561,67.8282521078083,65.7658686316158,62.295434407344,57.8409797705986 ),  x=c( 2.0260852817446,9.03627189621329,3.7256769053638,10.362243656069,11.1665419801138,-1.36220900854096,5.39347683265805,10.4938666215166,5.72009020252153,4.39260629424825,11.3956668348983,4.34667818667367,7.48598889634013,6.01686762738973,-0.559054442681372,10.5975495856255,1.44522828096524,-1.41116653056815,2.59089006995782,11.3630510880612,10.4535504248925,7.69924768619239,6.96709539275616,11.9197768727317,7.1798811876215,7.91942655434832,5.61692434595898,6.31798828626052,2.04823632212356,0.0595910623669624 ), x2=c( 1,0,1,0,0,1,1,0,1,1,0,1,0,0,1,0,1,1,1,0,0,0,0,0,0,0,1,0,1,1 ))
+
+View(challData)
+
+
+```
+
+```{r}
+pairs(challData)
+```
+
+
+```{r}
+plot(y ~ x, data=challData)
+```
+
+
+
+
+
+```{r}
+lm.chal <- lm(y ~ x, data=challData)
+summary(lm.chal)
+
+lm2 <- lm(y ~ x +I(x^2), data=challData)
+summary(lm2)
+```
+
+
+
+
+
+
+
+
+
